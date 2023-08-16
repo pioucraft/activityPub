@@ -5,7 +5,7 @@ const app = express()
 app.use(cors())
 
 app.all("/.well-known/webfinger", (req, res) => {
-    let response = {"subject": "acct:alice@my-example.com","links": [{"rel": "self","type": "application/activity+json","href": "https://social.gougoule.ch/actor"}]}
+    let response = {"subject": "acct:alice@social.gougoule.ch","links": [{"rel": "self","type": "application/activity+json","href": "https://social.gougoule.ch/actor"}]}
     res.json(response)
 })
 
