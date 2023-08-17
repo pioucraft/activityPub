@@ -20,8 +20,13 @@ app.all("/actor", (req, res) => {
 
 
 app.all("/inbox", (req, res) => {
-    console.log(req)
-    res.sendStatus(200)
+    const followAccept = {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      type: "Follow",
+      actor: "https://your-activitypub-account-url",
+      object: follower,
+    };
+    res.sendStatus(200).json(followAccept)
 })
 
 app.listen(3010)
