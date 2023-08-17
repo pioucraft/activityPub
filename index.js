@@ -1,12 +1,18 @@
 import express from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
-
-const activityJsonMiddleware = bodyParser.json({ type: 'activity+json' });
 const app = express()
 app.use(cors())
-app.use(activityJsonMiddleware())
 
+app.use((req, res, next) => {
+  if (req.headers['content-type'] === 'activity+json') {
+    // Override content-type header to make express.json() parse it correctly
+    req.headers['content-type'] = 'application/json';
+  }
+  next();
+});
+
+app.use(express.json()); // Use the express.json() middleware
 
 
 
