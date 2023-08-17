@@ -20,7 +20,7 @@ app.all("/actor", (req, res) => {
 
 
 app.all("/inbox", (req, res) => {
-    console.log(req.headers)
+    console.log(req)
     res.sendStatus(200)
 })
 
