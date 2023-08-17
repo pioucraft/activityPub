@@ -20,7 +20,7 @@ app.all("/actor", (req, res) => {
 
 
 app.all("/inbox", (req, res) => {
-    console.log(req.body)
+    console.log(req.type)
     let follower = req.body.actor
     const followAccept = {
       "@context": "https://www.w3.org/ns/activitystreams",
