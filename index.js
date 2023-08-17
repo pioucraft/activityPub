@@ -20,8 +20,8 @@ app.all("/actor", (req, res) => {
 
 
 app.all("/inbox", (req, res) => {
-    res.sendStatus(200)
     console.log(req.body)
+    res.sendStatus(200)
 })
 
 app.listen(3010)
