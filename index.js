@@ -27,7 +27,7 @@ app.all("/inbox", (req, res) => {
       actor: "https://social.gougoule.ch/actor",
       object: follower,
     };
-    res.sendStatus(200).json(followAccept)
+    res.json(followAccept)
 })
 
 app.listen(3010)
