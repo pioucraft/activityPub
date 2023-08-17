@@ -20,10 +20,11 @@ app.all("/actor", (req, res) => {
 
 
 app.all("/inbox", (req, res) => {
+    let follower = req.body.actor
     const followAccept = {
       "@context": "https://www.w3.org/ns/activitystreams",
       type: "Follow",
-      actor: "https://your-activitypub-account-url",
+      actor: "https://social.gougoule.ch/actor",
       object: follower,
     };
     res.sendStatus(200).json(followAccept)
