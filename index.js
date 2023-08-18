@@ -37,7 +37,7 @@ app.all("/inbox", async (req, res) => {
 
 })
 
-async function send(sender: string, recipient: string, message: object) {
+async function send(sender, recipient, message) {
   const url = new URL(recipient);
 
   const actor = await fetchActor(recipient);
