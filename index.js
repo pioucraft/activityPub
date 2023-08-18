@@ -5,7 +5,7 @@ const app = express()
 app.use(cors())
 
 // Custom middleware to parse "activity+json" content type
-const activityJsonMiddleware = bodyParser.json({ type: 'activity+json' });
+const activityJsonMiddleware = bodyParser.json({ type: 'application/activity+json' });
 
 app.use(activityJsonMiddleware)
 
