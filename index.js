@@ -32,7 +32,7 @@ app.all("/inbox", async (req, res) => {
         id: `https://social.gougoule.ch/${crypto.randomUUID()}`,
         type: "Accept",
         actor,
-        object: body,
+        object: req.body,
       });
 
 })
