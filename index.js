@@ -59,6 +59,7 @@ const data = [
     `host: mastodon.gougoule.ch`,
     `date: ${date}`
   ].join("\n");
+console.log(data)
 const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
 console.log(signature)
