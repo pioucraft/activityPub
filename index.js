@@ -53,7 +53,7 @@ var hash = createHash('sha256');
 
 const digest = hash.update(`{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`, "utf-8").digest("hex")
 let date = new Date().toUTCString()
-const key = createPrivateKey(privateKey);
+const key = privateKey;
 const data = [
     `(request-target): post ${"/users/pfannkuchen/inbox"}`,
     `host: mastodon.gougoule.ch`,
