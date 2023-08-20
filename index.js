@@ -61,13 +61,12 @@ const data = [
     `digest: SHA-256=${digest}`,
     `host: mastodon.gougoule.ch`,
     `date: ${date}`,
-    `content-type: application/activity+json`
   ].join("\n");
 console.log(data)
 const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
 console.log(signature)
-fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "content-type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": `keyID="https://social.gougoule.ch/actor/#main-key",algorithm="rsa-sha256",headers="(request-target) digest host date content-type",signature="${signature}"`, "Digest": "SHA-256="+digest}, "body": JSON.stringify({"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"})}).then(data => data).then(data => {
+fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "content-type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": `keyID="https://social.gougoule.ch/actor/#main-key",algorithm="rsa-sha256",headers="(request-target) digest host date",signature="${signature}"`, accept: "application/json", "Digest": "SHA-256="+digest}, "body": JSON.stringify({"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"})}).then(data => data).then(data => {
 
     console.log(data)
     
