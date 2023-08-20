@@ -51,7 +51,7 @@ app.all("/inbox", (req, res) => {
 
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
 
-let aString = `{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`
+var aString = `{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`
 const hash = createHash('sha256');
 hash.update(aString, 'utf-8');
 const digest = hash.digest('base64');
