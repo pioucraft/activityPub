@@ -7,9 +7,12 @@ import * as fs from 'fs';
 const app = express()
 app.use(cors())
 
+var privateKey = ""
+var publicKey = ""
+
 const privateKeyPath = 'private.pem';
 try {
-  const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+  privateKey = fs.readFileSync(privateKeyPath, 'utf8');
 } catch (error) {
   console.error("Error reading or creating private key:", error);
 }
@@ -17,7 +20,7 @@ try {
 const publicKeyPath = 'public.pem';
 
 try {
-  const publicKey = fs.readFileSync(publicKeyPath, 'utf8');
+  publicKey = fs.readFileSync(publicKeyPath, 'utf8');
 } catch (error) {
   console.error("Error reading or creating public key:", error);
 }
