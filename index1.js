@@ -50,8 +50,14 @@ app.all("/inbox", (req, res) => {
 })
 
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
-
-var aString = `{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`
+const requestBody = JSON.stringify({
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "id": activity_id,
+  "type": "Follow",
+  "actor": "https://social.gougoule.ch/actor",
+  "object": "https://mastodon.gougoule.ch/users/pfannkuchen"
+});
+var aString = requestBody
 const hash = createHash('sha256');
 hash.update(aString, 'utf-8');
 const digest = hash.digest('base64');
@@ -70,13 +76,7 @@ const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
 console.log(signature)
 
-const requestBody = JSON.stringify({
-  "@context": "https://www.w3.org/ns/activitystreams",
-  "id": activity_id,
-  "type": "Follow",
-  "actor": "https://social.gougoule.ch/actor",
-  "object": "https://mastodon.gougoule.ch/users/pfannkuchen"
-});
+
 
 const contentLength = Buffer.byteLength(requestBody, 'utf-8'); // Calculate the length of the request body
 
