@@ -54,7 +54,7 @@ const digest = hash.update(`{"@context": "https://www.w3.org/ns/activitystreams"
 let date = new Date().toUTCString()
 const key = createPrivateKey(privateKey)
 const data = [
-    `(request-target): post ${"/users/pfannkuchen/inbox"}`,
+    `(request-target): post ${"/inbox"}`,
     `digest: SHA-256=${digest}`,
     `host: mastodon.gougoule.ch`,
     `date: ${date}`
@@ -63,7 +63,7 @@ console.log(data)
 const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
 console.log(signature)
-fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": JSON.stringify({"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"})}).then(data => data).then(data => {
+fetch("https://mastodon.gougoule.ch/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": JSON.stringify({"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"})}).then(data => data).then(data => {
 
     console.log(data)
     
