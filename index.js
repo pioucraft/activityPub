@@ -10,7 +10,6 @@ app.use(cors())
 const privateKeyPath = 'private.pem';
 try {
   const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
-  const key = crypto.createPrivateKey(privateKey);
   console.log("Private key created successfully:", key);
 } catch (error) {
   console.error("Error reading or creating private key:", error);
@@ -20,7 +19,6 @@ const publicKeyPath = 'public.pem';
 
 try {
   const publicKey = fs.readFileSync(publicKeyPath, 'utf8');
-  const key = crypto.createPublicKey(publicKey);
   console.log("Public key created successfully:", key);
 } catch (error) {
   console.error("Error reading or creating public key:", error);
@@ -53,7 +51,7 @@ var hash = createHash('sha256');
 
 const digest = hash.update(`{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`, "utf-8").digest("hex")
 let date = new Date().toUTCString()
-const key = privateKey;
+const key = createPrivateKey(privateKey)
 const data = [
     `(request-target): post ${"/users/pfannkuchen/inbox"}`,
     `host: mastodon.gougoule.ch`,
