@@ -10,7 +10,6 @@ app.use(cors())
 const privateKeyPath = 'private.pem';
 try {
   const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
-  console.log("Private key created successfully:", key);
 } catch (error) {
   console.error("Error reading or creating private key:", error);
 }
@@ -19,7 +18,6 @@ const publicKeyPath = 'public.pem';
 
 try {
   const publicKey = fs.readFileSync(publicKeyPath, 'utf8');
-  console.log("Public key created successfully:", key);
 } catch (error) {
   console.error("Error reading or creating public key:", error);
 }
