@@ -2,7 +2,7 @@ import { createHash, createPrivateKey, sign } from "node:crypto"
 import express from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
-import { fs } from "fs/promises"
+import * as fs from 'fs';
 
 const app = express()
 app.use(cors())
