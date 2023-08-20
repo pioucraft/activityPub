@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto"
+import { createHash, createPrivateKey, sign } from "node:crypto"
 import express from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -31,7 +31,7 @@ app.all("/actor", (req, res) => {
 
 
 var activity_id = crypto.randomUUID()
-var hash = crypto.createHash('sha256');
+var hash = createHash('sha256');
 
 
 
