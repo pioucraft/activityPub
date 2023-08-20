@@ -45,7 +45,7 @@ app.all("/actor", (req, res) => {
 })
 
 app.all("/inbox", (req, res) => {
-    console.log(req.body)
+    console.log(req)
 })
 
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
