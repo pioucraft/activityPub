@@ -68,4 +68,7 @@ fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST",
     
 })
 
+
+console.log("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": {"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}})
+
 app.listen(3010)
