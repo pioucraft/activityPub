@@ -54,7 +54,7 @@ var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
 
 const hash = createHash('sha256');
 hash.update(aString, 'utf-8');
-const digest = hash.digest('hex');
+const digest = hash.digest('base64');
 
 
 let date = new Date().toUTCString()
