@@ -3,6 +3,7 @@ import express from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
 import * as fs from 'fs';
+import { sha256 } from "crypto-hash";
 
 const app = express()
 app.use(cors())
@@ -49,11 +50,16 @@ app.all("/inbox", (req, res) => {
 })
 
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
-var hash = createHash('sha256');
 
 
 
-const digest = hash.update(`{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`, "utf-8").digest("hex")
+const digest = ""
+
+let aString = `{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`
+
+sha256(aString).then(data => digest = data)
+
+
 let date = new Date().toUTCString()
 const key = createPrivateKey(privateKey)
 const data = [
