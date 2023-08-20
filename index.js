@@ -45,7 +45,7 @@ app.all("/actor", (req, res) => {
 })
 
 
-var activity_id = crypto.randomUUID()
+var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
 var hash = createHash('sha256');
 
 
