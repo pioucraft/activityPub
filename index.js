@@ -55,9 +55,9 @@ let date = new Date().toUTCString()
 const key = createPrivateKey(privateKey)
 const data = [
     `(request-target): post ${"/users/pfannkuchen/inbox"}`,
-    `host: mastodon.gougoule.ch`,
-    `date: ${date}`,
     `digest: SHA-256=${digest}`,
+    `host: mastodon.gougoule.ch`,
+    `date: ${date}`
   ].join("\n");
 const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
