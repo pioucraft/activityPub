@@ -93,7 +93,6 @@ fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {
   },
   body: requestBody
 })
-.then(response => response.json())
 .then(data => {
   console.log(data);
 })
