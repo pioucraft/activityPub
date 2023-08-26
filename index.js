@@ -47,7 +47,7 @@ app.all("/actor", (req, res) => {
 
 app.all("/inbox", (req, res) => {
     console.log("REQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\n")
-    console.log("req : "req)
+    console.log("req : "+req)
     console.log("body req : "+req.body)
     res.status(202)
     var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
@@ -102,7 +102,7 @@ app.all("/inbox", (req, res) => {
     });
 
 })
-
+/*
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
 const requestBody = JSON.stringify({
   "@context": "https://www.w3.org/ns/activitystreams",
@@ -153,8 +153,8 @@ fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {
 .catch(error => {
   console.error("Request error:", error);
 });
-
-
+*/
+/*
 console.log("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": {"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}})
-
+*/
 app.listen(3010)
