@@ -46,7 +46,7 @@ app.all("/actor", (req, res) => {
 })
 
 app.all("/inbox", (req, res) => {
-    console.log(req.body)
+    console.log(req)
     /*
     console.log("REQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\n")
     console.log("req : "+req)
