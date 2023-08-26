@@ -46,6 +46,8 @@ app.all("/actor", (req, res) => {
 })
 
 app.all("/inbox", (req, res) => {
+    console.log(req.body)
+    /*
     console.log("REQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\n")
     console.log("req : "+req)
     console.log("body req : "+req.body)
@@ -99,7 +101,7 @@ app.all("/inbox", (req, res) => {
     })
     .catch(error => {
     console.error("Request error:", error);
-    });
+    });*/
 
 })
 /*
