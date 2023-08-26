@@ -3,6 +3,7 @@ import express from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
 import * as fs from 'fs';
+import { sha256 } from "crypto-hash";
 
 const app = express()
 app.use(cors())
@@ -49,11 +50,19 @@ app.all("/inbox", (req, res) => {
 })
 
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
-var hash = createHash('sha256');
+const requestBody = JSON.stringify({
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "id": activity_id,
+  "type": "Follow",
+  "actor": "https://social.gougoule.ch/actor",
+  "object": "https://mastodon.gougoule.ch/users/pfannkuchen"
+});
+var aString = requestBody
+const hash = createHash('sha256');
+hash.update(aString, 'utf-8');
+const digest = hash.digest('base64');
 
 
-
-const digest = hash.update(`{"@context": "https://www.w3.org/ns/activitystreams", "id": ${activity_id}, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}`, "utf-8").digest("hex")
 let date = new Date().toUTCString()
 const key = createPrivateKey(privateKey)
 const data = [
@@ -66,11 +75,31 @@ console.log(data)
 const signature = sign("sha256", Buffer.from(data), key).toString("base64");
 
 console.log(signature)
-fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "content-type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": `keyId="https://social.gougoule.ch/actor/#main-key",algorithm="rsa-sha256",headers="(request-target) digest host date",signature="${signature}"`, accept: "application/json", "Digest": "SHA-256="+digest}, "body": JSON.stringify({"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"})}).then(data => data).then(data => {
 
-    console.log(data)
-    
+
+
+const contentLength = Buffer.byteLength(requestBody, 'utf-8'); // Calculate the length of the request body
+
+fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {
+  method: "POST",
+  headers: {
+    "Date": date,
+    "content-type": "application/activity+json",
+    "Host": "mastodon.gougoule.ch",
+    "Signature": `keyId="https://social.gougoule.ch/actor/#main-key",algorithm="rsa-sha256",headers="(request-target) digest host date",signature="${signature}"`,
+    "accept": "application/json",
+    "Digest": `SHA-256=${digest}`,
+    "Content-Length": contentLength // Add the Content-Length header
+  },
+  body: requestBody
 })
+.then(response => response.json())
+.then(data => {
+  console.log(data);
+})
+.catch(error => {
+  console.error("Request error:", error);
+});
 
 
 console.log("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": {"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}})
