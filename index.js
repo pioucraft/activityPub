@@ -1,5 +1,5 @@
 import { createHash, createPrivateKey, sign } from "node:crypto"
-import express from "express"
+import express, { response } from "express"
 import cors from "cors"
 import bodyParser from "body-parser"
 import * as fs from 'fs';
@@ -41,12 +41,37 @@ app.all("/.well-known/webfinger", (req, res) => {
 })
 
 app.all("/actor", (req, res) => {
-    let response = {"@context": ["https://www.w3.org/ns/activitystreams","https://w3id.org/security/v1"],"id": "https://social.gougoule.ch/actor","type": "Person","preferredUsername": "alice","inbox": "https://social.gougoule.ch/inbox","publicKey": {"id": "https://social.gougoule.ch/actor#main-key","owner": "https://social.gougoule.ch/actor","publicKeyPem": publicKey}}
+    let response = {"@context": ["https://www.w3.org/ns/activitystreams","https://w3id.org/security/v1"],"id": "https://social.gougoule.ch/actor","type": "Person","preferredUsername": "alice","inbox": "https://social.gougoule.ch/inbox","publicKey": {"id": "https://social.gougoule.ch/actor#main-key","owner": "https://social.gougoule.ch/actor","publicKeyPem": publicKey}, "followers": "https://social.gougoule.ch/actor/followers"}
     res.json(response)
 })
 
+app.all("/actor/followers", (req, res)=> {
+    if(req.query.page == "1") {
+        let response = {
+            "@context": "https://www.w3.org/ns/activitystreams",
+            "id": "https://social.gougoule.ch/actor/followers?page=1",
+            "type": "OrderedCollectionPage",
+            "totalItems": 1,
+            "partOf": "https://social.gougoule.ch/actor/followers",
+            "orderedItems": [
+                "https://mastodon.gougoule.ch/users/pfannkuchen"
+            ]
+}
+    }
+    else {
+        let response = {
+            "@context": "https://www.w3.org/ns/activitystreams",
+            "id": "https://social.gougoule.ch/actor/followers",
+            "type": "OrderedCollection",
+            "totalItems": 1,
+            "first": "https://social.gougoule.ch/actor/followers?page=1"
+        }
+    }
+    res.send(response)
+})
+
 app.all("/inbox", (req, res) => {
-    console.log(req)
+    console.log("REQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\n" + req)
     /*
     console.log("REQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\nREQUEST INCOMMING\n\n\n")
     console.log("req : "+req)
@@ -104,14 +129,24 @@ app.all("/inbox", (req, res) => {
     });*/
 
 })
-/*
+
+let date = new Date().toUTCString()
 var activity_id = "https://social.gougoule.ch/"+crypto.randomUUID()
 const requestBody = JSON.stringify({
   "@context": "https://www.w3.org/ns/activitystreams",
   "id": activity_id,
-  "type": "Follow",
+  "type": "Create",
   "actor": "https://social.gougoule.ch/actor",
-  "object": "https://mastodon.gougoule.ch/users/pfannkuchen"
+  "published": date,
+
+  "object": {
+    "id": "https://social.gougoule.ch/test-message",
+    "type": "Note",
+    "published": date,
+    "attributedTo": "https://social.gougoule.ch/actor",
+    "content": "<p>Hello world !!! </p>",
+    "to": "https://www.w3.org/ns/activitystreams#Public"
+  }
 });
 var aString = requestBody
 const hash = createHash('sha256');
@@ -119,7 +154,6 @@ hash.update(aString, 'utf-8');
 const digest = hash.digest('base64');
 
 
-let date = new Date().toUTCString()
 const key = createPrivateKey(privateKey)
 const data = [
     `(request-target): post ${"/users/pfannkuchen/inbox"}`,
@@ -155,7 +189,7 @@ fetch("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {
 .catch(error => {
   console.error("Request error:", error);
 });
-*/
+
 /*
 console.log("https://mastodon.gougoule.ch/users/pfannkuchen/inbox", {"method": "POST", headers: {"Date": date, "Content-Type": "application/activity+json", "Host": "mastodon.gougoule.ch", "Signature": signature, "Digest": "SHA-256="+digest}, "body": {"@context": "https://www.w3.org/ns/activitystreams", "id": activity_id, "type": "Follow", "actor": "https://social.gougoule.ch/actor", "object": "https://mastodon.gougoule.ch/users/pfannkuchen"}})
 */
